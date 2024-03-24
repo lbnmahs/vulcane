@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "21099550845",
+    "project_id": "vulcane-c4058",
+    "storage_bucket": "vulcane-c4058.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21099550845:android:52f1cacea428101a93f914",
+        "android_client_info": {
+          "package_name": "com.example.vulcane"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB09i1e7ygwZS0f0kfVil9MSoxR834X4So"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

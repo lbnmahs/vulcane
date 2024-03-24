@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAg7IUfR-xzlTDJtb-LeIc1w57EzIN1TRE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>21099550845</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.vulcane</string>
+	<key>PROJECT_ID</key>
+	<string>vulcane-c4058</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vulcane-c4058.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:21099550845:ios:131ea7a857c6179093f914</string>
+</dict>
+</plist>
