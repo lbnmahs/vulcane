@@ -76,15 +76,6 @@ class AuthDataProvider {
     }
   }
 
-  //sign out
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-  }
-
-  Future<User?> getCurrentUser() async {
-    return _firebaseAuth.currentUser;
-  }
-
   // sign in with google
   Future<User?> signInWithGoogle() async {
     try {
@@ -101,5 +92,15 @@ class AuthDataProvider {
     } catch (e) {
       throw Exception('An error occurred: $e');
     }
+  }
+
+  //sign out
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+  }
+
+  //get current user
+  Future<User?> getCurrentUser() async {
+    return _firebaseAuth.currentUser;
   }
 }
