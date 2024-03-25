@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:vulcane/models/user_model.dart';
 
 class AuthDataProvider {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   //login with email and password
   Future<User?> loginWithEmailAndPassword(String email, String password) async {
@@ -81,5 +83,23 @@ class AuthDataProvider {
 
   Future<User?> getCurrentUser() async {
     return _firebaseAuth.currentUser;
+  }
+
+  // sign in with google
+  Future<User?> signInWithGoogle() async {
+    try {
+      final googleUser = await _googleSignIn.signIn();
+      final googleAuth = await googleUser?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth?.idToken,
+        accessToken: googleAuth?.accessToken,
+      );
+
+      final userCredential = await _firebaseAuth.signInWithCredential(credential);
+      return userCredential.user;
+    } catch (e) {
+      throw Exception('An error occurred: $e');
+    }
   }
 }
