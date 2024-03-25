@@ -1,6 +1,6 @@
 # Vulcane
 
-Vulcane is an online platform facilitating the seamless buying and selling of cars, connecting users with trusted dealers through a user-friendly interface, eliminating haggling and fees for a hassle-free experience.
+Vulcane is an online platform facilitating the seamless buying and selling of cars, connecting users with trusted dealers through a user-friendly interface, eliminating haggling and fees for a hassle-free experience. This project uses Flutter for the front end,  Firebase as the backend service, and BLoC as the state manager.
 
 ## Getting Started
 
