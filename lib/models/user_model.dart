@@ -1,6 +1,6 @@
 class VulcaneUser {
   final String id;
-  final String name;
+  final String fullName;
   final String email;
   final String phoneNumber;
   final String? profileImageUrl;
@@ -9,7 +9,7 @@ class VulcaneUser {
 
   VulcaneUser({
     required this.id,
-    required this.name,
+    required this.fullName,
     required this.email,
     required this.phoneNumber,
     this.profileImageUrl,
@@ -19,7 +19,7 @@ class VulcaneUser {
 
   Map<String, dynamic> toJson () => {
     'id': id,
-    'name': name,
+    'name': fullName,
     'email': email,
     'phoneNumber': phoneNumber,
     'profileImageUrl': profileImageUrl,
@@ -30,7 +30,7 @@ class VulcaneUser {
   factory VulcaneUser.fromJson(Map<String, dynamic> json) {
     return VulcaneUser(
       id: json['id'],
-      name: json['name'],
+      fullName: json['name'],
       email: json['email'],
       phoneNumber: json['phoneNumber'],
       profileImageUrl: json['profileImageUrl'],
