@@ -2,5 +2,6 @@
     "cSpell.words": [
         "Firestore",
         "Vulcane"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
