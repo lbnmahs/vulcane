@@ -20,8 +20,8 @@ class RegisterWithEmailPassword extends AuthEvent {
   });
 }
 
-class SignOut extends AuthEvent {}
-
 class SignInWithGoogle extends AuthEvent {}
 
 class CheckAuthEvent extends AuthEvent {}
+
+class SignOut extends AuthEvent {}

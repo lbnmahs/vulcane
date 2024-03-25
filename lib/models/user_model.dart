@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class VulcaneUser {
   final String id;
   final String fullName;
@@ -17,25 +19,14 @@ class VulcaneUser {
     this.wishlistCarIds
   });
 
-  Map<String, dynamic> toJson () => {
-    'id': id,
-    'name': fullName,
-    'email': email,
-    'phoneNumber': phoneNumber,
-    'profileImageUrl': profileImageUrl,
-    'ownedCarIds': ownedCarIds,
-    'wishlistCarIds': wishlistCarIds
-  };
 
-  factory VulcaneUser.fromJson(Map<String, dynamic> json) {
+  factory VulcaneUser.fromFirebaseUser(User user) {
     return VulcaneUser(
-      id: json['id'],
-      fullName: json['name'],
-      email: json['email'],
-      phoneNumber: json['phoneNumber'],
-      profileImageUrl: json['profileImageUrl'],
-      ownedCarIds: json['ownedCarIds'],
-      wishlistCarIds: json['wishlistCarIds']
+      id: user.uid,
+      fullName: user.displayName!,
+      email: user.email!,
+      phoneNumber: user.phoneNumber ?? '',
+      profileImageUrl: user.photoURL,
     );
   }
 }
