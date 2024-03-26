@@ -3,6 +3,8 @@
         "appspot",
         "dotenv",
         "Firestore",
+        "RGBO",
+        "roboto",
         "Vulcane"
     ],
     "java.configuration.updateBuildConfiguration": "automatic"
