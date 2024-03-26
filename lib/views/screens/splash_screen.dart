@@ -8,6 +8,14 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.of(context).pushReplacementNamed('/auth');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -15,7 +23,10 @@ class _SplashScreenState extends State<SplashScreen> {
         height: double.infinity,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [ Colors.blue, Colors.blue.shade900, ],
+            colors: [ 
+              Theme.of(context).colorScheme.primary, 
+              Theme.of(context).colorScheme.primary.withOpacity(0.6), 
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

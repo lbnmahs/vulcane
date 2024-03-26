@@ -8,6 +8,8 @@ import 'package:vulcane/data/auth/auth_data_provider.dart';
 import 'package:vulcane/data/auth/auth_repository.dart';
 import 'package:vulcane/firebase_options.dart';
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
+import 'package:vulcane/views/screens/auth_screen.dart';
+import 'package:vulcane/views/screens/home_tab.dart';
 import 'package:vulcane/views/screens/splash_screen.dart';
 
 Future<void> main() async {
@@ -31,7 +33,7 @@ Future<void> main() async {
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
               authRepository: context.read<AuthRepository>()
-            ),
+            )..add(CheckAuthEvent()),
           )
         ], 
         child: const MyApp(),
@@ -74,9 +76,17 @@ class MyApp extends StatelessWidget {
           BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if(state is AuthSuccess) {
-                Navigator.of(context).pushReplacementNamed('/home');
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const HomeTab(),
+                  ),
+                );
               } else if(state is AuthFailure) {
-                Navigator.of(context).pushReplacementNamed('/login');
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const AuthScreen(),
+                  ),
+                );
               }
             }
           )
