@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:vulcane/views/screens/favorites_screen.dart';
+import 'package:vulcane/views/screens/home_screen.dart';
+import 'package:vulcane/views/screens/profile_screen.dart';
+import 'package:vulcane/views/screens/search_screen.dart';
+
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
@@ -9,18 +14,29 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int _screenIndex = 0;
+  void _onTabItemSelect (int index) {
+    setState(() => _screenIndex = index);
+  }
+  final _homePages = [
+    const HomeScreen(),
+    const SearchScreen(),
+    const FavoritesScreen(),
+    const ProfileScreen()
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: _homePages.elementAt(_screenIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.book_online_rounded), label: 'Tickets'),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_active_rounded), label: 'Notifications'),
+          BottomNavigationBarItem(icon: Icon(Icons.search_rounded), label: 'Search'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
         currentIndex: _screenIndex,
-        onTap: (int index) {},
+        onTap: _onTabItemSelect,
         selectedItemColor: Theme.of(context).colorScheme.primary.withOpacity(0.9),
         unselectedItemColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.4),
         showSelectedLabels: false,
