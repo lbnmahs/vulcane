@@ -1,9 +1,14 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:vulcane/data/auth/auth_data_provider.dart';
+import 'package:vulcane/data/auth/auth_repository.dart';
 import 'package:vulcane/firebase_options.dart';
+import 'package:vulcane/middleware/auth/auth_bloc.dart';
+import 'package:vulcane/views/screens/splash_screen.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: '.env');
@@ -11,7 +16,28 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
-  runApp(const MyApp());
+
+  final AuthDataProvider authDataProvider = AuthDataProvider();
+
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+          create: (context) => AuthRepository(authDataProvider),
+        )
+      ], 
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(
+              authRepository: context.read<AuthRepository>()
+            ),
+          )
+        ], 
+        child: const MyApp(),
+      )
+    )
+  );
 }
 
 final theme = ThemeData(
@@ -41,14 +67,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Your app name',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Your Title here'),
-        ),
-        body: const Center(
-          child: Text('Hello World, of course'),
-        ),
+      title: 'Vulcane',
+      theme: theme,
+      home: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if(state is AuthSuccess) {
+                Navigator.of(context).pushReplacementNamed('/home');
+              } else if(state is AuthFailure) {
+                Navigator.of(context).pushReplacementNamed('/login');
+              }
+            }
+          )
+        ], 
+        child: const SplashScreen()
       ),
     );
   }
