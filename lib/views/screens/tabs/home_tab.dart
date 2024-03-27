@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vulcane/models/user_model.dart';
 
 import 'package:vulcane/views/screens/home/favorites_screen.dart';
 import 'package:vulcane/views/screens/home/home_screen.dart';
@@ -6,7 +7,9 @@ import 'package:vulcane/views/screens/home/profile_screen.dart';
 import 'package:vulcane/views/screens/home/search_screen.dart';
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({super.key});
+  const HomeTab({super.key, required this.currentUser});
+
+  final VulcaneUser currentUser;
 
   @override
   State<HomeTab> createState() => _HomeTabState();

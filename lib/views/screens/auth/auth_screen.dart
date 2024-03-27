@@ -56,7 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
           );
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => const HomeTab(),
+              builder: (context) => HomeTab(currentUser: state.user,),
             ),
           );
         }

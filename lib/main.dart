@@ -81,7 +81,7 @@ class MyApp extends StatelessWidget {
               if(state is AuthSuccess) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => const HomeTab(),
+                    builder: (context) => HomeTab(currentUser: state.user,),
                   ),
                 );
               } else if(state is AuthFailure) {
