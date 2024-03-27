@@ -59,10 +59,11 @@ final theme = ThemeData(
       fontSize: 16,
       fontWeight: FontWeight.bold,
     ),
+    centerTitle: true
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    selectedItemColor: const Color.fromRGBO(255, 111, 0, 1),
-    unselectedItemColor: Colors.grey.shade400,
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    selectedItemColor: Color.fromRGBO(234, 43, 31, 1),
+    unselectedItemColor: Colors.white
   ),
 );
 
