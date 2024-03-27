@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
 import 'package:vulcane/views/screens/tabs/home_tab.dart';
@@ -72,13 +73,91 @@ class _AuthScreenState extends State<AuthScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _isLogin ? 'Hello, Welcome Back 👋' : 'Create Account 👋',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    _isLogin ? 'Sign In' : 'Sign Up',
+                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
                       color: Theme.of(context).colorScheme.onPrimary,
-                      fontWeight: FontWeight.w600
+                      fontWeight: FontWeight.bold
                     ),
                   ),
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 15),
+                  Text(
+                    _isLogin ? 'Please log in to continue' : 'Please register to join',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+
+                  Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Google Sign In Button
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            return Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  state is! AuthLoading 
+                                    ? context.read<AuthBloc>().add(SignInWithGoogle()) 
+                                    : null;
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 15
+                                  ),
+                                  backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: state is AuthLoading 
+                                  ? const CircularProgressIndicator()
+                                  : const FaIcon(FontAwesomeIcons.google),
+                              ),
+                            );
+                          },
+                        ),
+                        const SizedBox(width: 10,),
+                        // Apple Sign In Button
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 15
+                              ),
+                              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: FaIcon(
+                              FontAwesomeIcons.apple,
+                              color: Theme.of(context).colorScheme.onSecondaryContainer,
+                            )
+                          ),
+                        )
+                      ],
+                    )
+                  ),
+                  const SizedBox(height: 30),
+
+                  // or
+                  Center(
+                    child: Text(
+                      'or',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSecondaryContainer.withOpacity(0.6),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
 
                   // First Name Field
                   if(!_isLogin)
@@ -219,7 +298,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 90),
+                  const SizedBox(height: 50),
 
                   // Login/Create Account Button
                   BlocBuilder<AuthBloc, AuthState>(
@@ -251,49 +330,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     },
                   ),
                   const SizedBox(height: 20),
-
-                  // or
-                  Center(
-                    child: Text(
-                      'or',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).colorScheme.onSecondaryContainer.withOpacity(0.6),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Google Sign In Button
-                  BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, state) {
-                      return GestureDetector(
-                        onTap: () {
-                          context.read<AuthBloc>().add(SignInWithGoogle());
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Theme.of(context).colorScheme.primaryContainer,
-                          ),
-                          child: Center(
-                            child: state is AuthLoading 
-                              ? CircularProgressIndicator(
-                                  color: Theme.of(context).colorScheme.onSecondaryContainer,
-                                )
-                              : Icon(
-                                  Icons.g_mobiledata_rounded,
-                                  color: Theme.of(context).colorScheme.onSecondaryContainer,
-                                  size: 30,
-                                ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20),
                 
                   // Create Account/Login Button
                   Center(
@@ -311,7 +347,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextButton(
                           onPressed: () => setState(() => _isLogin = !_isLogin),
                           child: Text(
-                            _isLogin ? 'Log in' : 'Register',
+                            _isLogin ? 'Register' : 'Log in',
                             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               color: Theme.of(context).colorScheme.onPrimary,
                               fontWeight: FontWeight.bold,
