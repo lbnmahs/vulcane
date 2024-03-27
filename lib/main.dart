@@ -44,15 +44,18 @@ Future<void> main() async {
 
 final theme = ThemeData(
   useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: Colors.blue.shade300,
-    primary: const Color.fromRGBO(0, 77, 158, 1),
-    secondary: const Color.fromRGBO(255, 111, 0, 1),
-    background: const Color.fromRGBO(242, 242, 242, 1),
+  colorScheme: const ColorScheme.dark(
+    primary:  Color.fromRGBO(1, 11, 19, 1),
+    onPrimary: Color.fromRGBO(255, 255, 255, 1),
+    secondary:  Color.fromRGBO(234, 43, 31, 1),
+    onSecondary: Color.fromRGBO(255, 255, 255, 1),
+    primaryContainer: Color.fromRGBO(37, 48, 49, 1),
+    onPrimaryContainer: Color.fromRGBO(255, 255, 255, 0.6),
+    brightness: Brightness.dark,
   ),
-  textTheme: GoogleFonts.robotoTextTheme(),
+  textTheme: GoogleFonts.poppinsTextTheme(),
   appBarTheme: AppBarTheme(
-    titleTextStyle: GoogleFonts.poppins(
+    titleTextStyle: GoogleFonts.montserrat(
       fontSize: 16,
       fontWeight: FontWeight.bold,
     ),

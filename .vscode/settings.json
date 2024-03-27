@@ -3,6 +3,7 @@
         "appspot",
         "dotenv",
         "Firestore",
+        "mobiledata",
         "RGBO",
         "roboto",
         "Vulcane"
