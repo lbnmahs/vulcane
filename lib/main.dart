@@ -8,8 +8,8 @@ import 'package:vulcane/data/auth/auth_data_provider.dart';
 import 'package:vulcane/data/auth/auth_repository.dart';
 import 'package:vulcane/firebase_options.dart';
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
-import 'package:vulcane/views/screens/auth_screen.dart';
-import 'package:vulcane/views/screens/home_tab.dart';
+import 'package:vulcane/views/screens/auth/auth_screen.dart';
+import 'package:vulcane/views/screens/tabs/home_tab.dart';
 import 'package:vulcane/views/screens/splash_screen.dart';
 
 Future<void> main() async {

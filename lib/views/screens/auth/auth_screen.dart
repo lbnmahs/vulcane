@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
-import 'package:vulcane/views/screens/home_tab.dart';
+import 'package:vulcane/views/screens/tabs/home_tab.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

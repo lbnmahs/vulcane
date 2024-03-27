@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:vulcane/views/screens/favorites_screen.dart';
-import 'package:vulcane/views/screens/home_screen.dart';
-import 'package:vulcane/views/screens/profile_screen.dart';
-import 'package:vulcane/views/screens/search_screen.dart';
+import 'package:vulcane/views/screens/home/favorites_screen.dart';
+import 'package:vulcane/views/screens/home/home_screen.dart';
+import 'package:vulcane/views/screens/home/profile_screen.dart';
+import 'package:vulcane/views/screens/home/search_screen.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
