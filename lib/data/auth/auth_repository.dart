@@ -26,7 +26,7 @@ class AuthRepository {
     return await authDataProvider.getCurrentUser();
   }
 
-  Future<User?> signInWithGoogle() async {
+  Future<VulcaneUser?> signInWithGoogle() async {
     return await authDataProvider.signInWithGoogle();
   }
 }

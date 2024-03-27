@@ -30,13 +30,11 @@ class AuthDataProvider {
   }
 
   bool isPasswordStrong(String password) {
-    // Check if password meets your requirements
-    // This is just an example, adjust the rules to fit your needs
     return password.length >= 6 &&
       password.contains(RegExp(r'[A-Z]')) &&
       password.contains(RegExp(r'[a-z]')) &&
       password.contains(RegExp(r'[0-9]')) &&
-      password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+      password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>\-_+=~`/\[\]]'));
   }
   //register with email and password
   Future<VulcaneUser?> registerWithEmailAndPassword(
@@ -77,18 +75,47 @@ class AuthDataProvider {
   }
 
   // sign in with google
-  Future<User?> signInWithGoogle() async {
+  Future<VulcaneUser?> signInWithGoogle() async {
     try {
       final googleUser = await _googleSignIn.signIn();
-      final googleAuth = await googleUser?.authentication;
+      if(googleUser == null) { throw Exception('Google sign in was cancelled');}
+
+      final googleAuth = await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth?.idToken,
-        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken,
       );
 
-      final userCredential = await _firebaseAuth.signInWithCredential(credential);
-      return userCredential.user;
+      UserCredential userCredential;
+      try {
+        userCredential = await _firebaseAuth.signInWithCredential(credential);
+      } on FirebaseAuthException catch (e) {
+        throw Exception('Firebase Auth error: ${e.code}');
+      }
+      User? user = userCredential.user;
+      if (user != null) {
+        // Checking if user already exists in Firestore
+        final userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+        if (!userDoc.exists) {
+          // If user does not exist, we add them to Firestore
+          await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+            'full name': user.displayName,
+            'email': user.email,
+            'createdAt': FieldValue.serverTimestamp(),
+            'phoneNumber': user.phoneNumber ?? '',
+            'profileImageUrl': user.photoURL,
+          });
+        }
+        return VulcaneUser(
+          id: user.uid,
+          fullName: user.displayName!,
+          email: user.email!,
+          phoneNumber: user.phoneNumber ?? '',
+          profileImageUrl: user.photoURL,
+        );
+      }
+      return null;
     } catch (e) {
       throw Exception('An error occurred: $e');
     }

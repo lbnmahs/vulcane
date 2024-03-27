@@ -51,7 +51,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         final user = await authRepository.signInWithGoogle();
         if(user != null) {
-          emit(AuthSuccess(user: VulcaneUser.fromFirebaseUser(user)));
+          emit(AuthSuccess(user: user));
         } else {
           emit(AuthFailure(message: 'Failed to sign in with Google'));
         }
