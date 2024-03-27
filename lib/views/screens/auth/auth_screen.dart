@@ -99,7 +99,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             return Expanded(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  state is! AuthLoading 
+                                  state is! GoogleAuthLoading && state is! AuthLoading
                                     ? context.read<AuthBloc>().add(SignInWithGoogle()) 
                                     : null;
                                 },
@@ -113,7 +113,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: state is AuthLoading 
+                                child: state is GoogleAuthLoading 
                                   ? const CircularProgressIndicator()
                                   : const FaIcon(FontAwesomeIcons.google),
                               ),

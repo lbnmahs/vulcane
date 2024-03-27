@@ -7,6 +7,8 @@ final class AuthInitial extends AuthState {}
 
 final class AuthLoading extends AuthState {}
 
+final class GoogleAuthLoading extends AuthState {}
+
 final class AuthSuccess extends AuthState {
   final VulcaneUser user;
 
