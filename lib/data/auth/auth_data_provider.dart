@@ -79,9 +79,7 @@ class AuthDataProvider {
     try {
       final googleUser = await _googleSignIn.signIn();
       if(googleUser == null) { throw Exception('Google sign in was cancelled');}
-
       final googleAuth = await googleUser.authentication;
-
       final credential = GoogleAuthProvider.credential(
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken,
@@ -94,6 +92,7 @@ class AuthDataProvider {
         throw Exception('Firebase Auth error: ${e.code}');
       }
       User? user = userCredential.user;
+
       if (user != null) {
         // Checking if user already exists in Firestore
         final userDoc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
@@ -116,6 +115,51 @@ class AuthDataProvider {
         );
       }
       return null;
+    } catch (e) {
+      throw Exception('An error occurred: $e');
+    }
+  }
+
+  // phone number authentication and sending OTP
+  Future<void> verifyPhoneNumber(
+    String phoneNumber,  Function(String) codeSent
+  ) async {
+    try {
+      await _firebaseAuth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await _firebaseAuth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          throw Exception('An error occurred: ${e.message}');
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          codeSent(verificationId);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } catch(e) {
+      throw Exception('An error occurred: $e');
+    }
+  }
+
+  // verify OTP and user sign in
+  Future<User?> verifyOTP(
+    String verificationId, String smsCode, String phoneNumber
+  ) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: smsCode
+      );
+      UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
+      User? user = userCredential.user;
+
+      if(user != null) {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+          'phoneNumber': phoneNumber,
+        });
+      }
+      return user;
     } catch (e) {
       throw Exception('An error occurred: $e');
     }

@@ -18,15 +18,27 @@ class AuthRepository {
     return await authDataProvider.registerWithEmailAndPassword(email, password, fullName);
   }
   
+  Future<VulcaneUser?> signInWithGoogle() async {
+    return await authDataProvider.signInWithGoogle();
+  }
+
+  Future<void> verifyPhoneNumber(
+    String phoneNumber, Function(String) codeSent
+  ) async {
+    return await authDataProvider.verifyPhoneNumber(phoneNumber, codeSent);
+  }
+
+  Future<User?> verifyOTP(
+    String verificationId, String smsCode, String phoneNumber
+  ) async {
+    return await authDataProvider.verifyOTP(verificationId, smsCode, phoneNumber);
+  }
+
   Future<void> signOut() async {
     return await authDataProvider.signOut();
   }
 
   Future<User?> getCurrentUser() async {
     return await authDataProvider.getCurrentUser();
-  }
-
-  Future<VulcaneUser?> signInWithGoogle() async {
-    return await authDataProvider.signInWithGoogle();
   }
 }
