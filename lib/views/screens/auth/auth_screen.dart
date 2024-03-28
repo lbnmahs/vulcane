@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:toastification/toastification.dart';
 
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
 import 'package:vulcane/views/screens/tabs/home_tab.dart';
@@ -47,13 +48,37 @@ class _AuthScreenState extends State<AuthScreen> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+          final authFailNotification = toastification.show(
+            context: context,
+            type: ToastificationType.error,
+            style: ToastificationStyle.flat,
+            title: Text(state.message),
+            alignment: Alignment.topCenter,
+            autoCloseDuration: const Duration(seconds: 4),
+            animationBuilder: (context, animation, alignment, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            boxShadow: lowModeShadow,
           );
+          toastification.dismiss(authFailNotification);
         } else if (state is AuthSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Authentication successful!')),
+          final authFailNotification = toastification.show(
+            context: context,
+            type: ToastificationType.error,
+            style: ToastificationStyle.flat,
+            title: const Text("Authentication Successful"),
+            alignment: Alignment.topCenter,
+            autoCloseDuration: const Duration(seconds: 4),
+            animationBuilder: (context, animation, alignment, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+            foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+            boxShadow: lowModeShadow,
           );
+          toastification.dismiss(authFailNotification);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => HomeTab(currentUser: state.user,),

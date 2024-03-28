@@ -6,6 +6,7 @@
         "mobiledata",
         "RGBO",
         "roboto",
+        "toastification",
         "Vulcane"
     ],
     "java.configuration.updateBuildConfiguration": "automatic"
