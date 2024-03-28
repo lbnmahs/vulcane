@@ -61,10 +61,6 @@ final theme = ThemeData(
     ),
     centerTitle: true
   ),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    selectedItemColor: Color.fromRGBO(234, 43, 31, 1),
-    unselectedItemColor: Colors.white
-  ),
 );
 
 class MyApp extends StatelessWidget {

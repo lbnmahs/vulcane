@@ -43,20 +43,42 @@ class _HomeTabState extends State<HomeTab> {
           const BottomNavigationBarItem(icon: Icon(Icons.search_rounded), label: 'Search'),
           const BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
           BottomNavigationBarItem(
-            icon: UserAvatar(
-              imageUrl: widget.currentUser.profileImageUrl ?? '',
-              radius: 20.0,
-              name: widget.currentUser.fullName
-            ),
-            label: 'Profile'
+            icon: _screenIndex == 3
+              ? Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.secondary, width: 2.0
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: UserAvatar(
+                      imageUrl: widget.currentUser.profileImageUrl ?? '',
+                      radius: 13.0,
+                      name: widget.currentUser.fullName,
+                    ),
+                  ),
+                )
+              : UserAvatar(
+                  imageUrl: widget.currentUser.profileImageUrl ?? '',
+                  radius: 15.0,
+                  name: widget.currentUser.fullName,
+                ),
+            label: 'Profile',
           ),
         ],
         currentIndex: _screenIndex,
         onTap: _onTabItemSelect,
-        selectedItemColor: Theme.of(context).colorScheme.primary.withOpacity(0.9),
-        unselectedItemColor: Theme.of(context).colorScheme.onBackground.withOpacity(0.4),
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         showUnselectedLabels: false,
+        selectedFontSize: 27,
+        selectedItemColor: Theme.of(context).colorScheme.onPrimary,
+        unselectedFontSize: 25,
+        unselectedItemColor: Theme.of(context).colorScheme.onPrimaryContainer,
+        selectedLabelStyle: const TextStyle(
+          fontWeight: FontWeight.w500, fontSize: 14
+        ),
       ),
     );
   }
