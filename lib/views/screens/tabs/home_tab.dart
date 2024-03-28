@@ -70,7 +70,7 @@ class _HomeTabState extends State<HomeTab> {
         ],
         currentIndex: _screenIndex,
         onTap: _onTabItemSelect,
-        showSelectedLabels: true,
+        showSelectedLabels: _screenIndex != 3 ? true : false,
         showUnselectedLabels: false,
         selectedFontSize: 27,
         selectedItemColor: Theme.of(context).colorScheme.onPrimary,

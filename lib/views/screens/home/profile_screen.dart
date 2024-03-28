@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:vulcane/middleware/auth/auth_bloc.dart';
 import 'package:vulcane/models/user_model.dart';
+import 'package:vulcane/views/screens/auth/auth_screen.dart';
 import 'package:vulcane/views/widgets/user_avatar.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -16,35 +18,39 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Profile'),
         actions: [
-          IconButton(
-            icon: const FaIcon(FontAwesomeIcons.arrowRightFromBracket),
-            onPressed: () => FirebaseAuth.instance.signOut(),
+          BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              return IconButton(
+                icon: const FaIcon(
+                  FontAwesomeIcons.arrowRightFromBracket,
+                  size: 20.0,
+                ),
+                onPressed: () {
+                  context.read<AuthBloc>().add(SignOut());
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const AuthScreen())
+                  );
+                },
+              );
+            },
           )
         ],
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            UserAvatar(
-              imageUrl: user.profileImageUrl ?? '',
-              radius: 60.0,
-              name: user.fullName,
-            ),
-            const SizedBox(height: 20.0),
-            ListTile(
-              title: Text(user.fullName),
-              subtitle: const Text('Full Name'),
-            ),
-            ListTile(
-              title: Text(user.email),
-              subtitle: const Text('Email'),
-            ),
-            ListTile(
-              title: Text(user.phoneNumber),
-              subtitle: const Text('Phone Number'),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              UserAvatar(
+                imageUrl: user.profileImageUrl ?? '',
+                radius: 60.0,
+                name: user.fullName,
+              ),
+              const SizedBox(height: 30.0),
+              ListTile(title: Text('Full Name: ${user.fullName}'),),
+              ListTile(title: Text('Email: ${user.email}'),),
+            ],
+          ),
         ),
       ),
     );

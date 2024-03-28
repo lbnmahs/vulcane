@@ -64,9 +64,9 @@ class _AuthScreenState extends State<AuthScreen> {
           );
           toastification.dismiss(authFailNotification);
         } else if (state is AuthSuccess) {
-          final authFailNotification = toastification.show(
+          final authSuccessNotification = toastification.show(
             context: context,
-            type: ToastificationType.error,
+            type: ToastificationType.success,
             style: ToastificationStyle.flat,
             title: const Text("Authentication Successful"),
             alignment: Alignment.topCenter,
@@ -78,7 +78,7 @@ class _AuthScreenState extends State<AuthScreen> {
             foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
             boxShadow: lowModeShadow,
           );
-          toastification.dismiss(authFailNotification);
+          toastification.dismiss(authSuccessNotification);
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => HomeTab(currentUser: state.user,),

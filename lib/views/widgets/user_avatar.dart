@@ -13,18 +13,18 @@ class UserAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: radius,
-      backgroundImage: imageUrl.isNotEmpty
+      backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+      foregroundImage: imageUrl.isNotEmpty
         ? NetworkImage(imageUrl)
         : null,
-      child: imageUrl.isEmpty
-        ? Text(name[0].toUpperCase())
-        : null,
-      onBackgroundImageError: (exception, stackTrace) {
-        CircleAvatar(
-          radius: radius,
-          child: Text(name[0].toUpperCase()),
-        );
-      },
+      child: Text(
+        name[0].toUpperCase(),
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          fontSize: radius / 1.2,
+          fontWeight: FontWeight.bold
+        ),
+      ),
     );
   }
 }
