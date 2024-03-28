@@ -20,3 +20,25 @@ final class AuthFailure extends AuthState {
 
   AuthFailure({required this.message});
 }
+
+final class PhoneNumberVerificationSuccess extends AuthState {}
+
+final class PhoneNumberVerificationFailure extends AuthState {
+  final String message;
+
+  PhoneNumberVerificationFailure({required this.message});
+}
+
+final class OTPSent extends AuthState {}
+
+final class OTPVerificationSuccess extends AuthState {
+  final VulcaneUser user;
+
+  OTPVerificationSuccess({required this.user});
+}
+
+final class OTPVerificationFailure extends AuthState {
+  final String message;
+
+  OTPVerificationFailure({required this.message});
+}

@@ -22,6 +22,23 @@ class RegisterWithEmailPassword extends AuthEvent {
 
 class SignInWithGoogle extends AuthEvent {}
 
+class VerifyPhoneNumber extends AuthEvent {
+  final String phoneNumber;
+  final Function(String) codeSent;
+
+  VerifyPhoneNumber({required this.phoneNumber, required this.codeSent});
+}
+
+class VerifyOTP extends AuthEvent {
+  final String verificationId;
+  final String smsCode;
+  final String phoneNumber;
+
+  VerifyOTP({
+    required this.verificationId, required this.smsCode, required this.phoneNumber
+  });
+}
+
 class CheckAuthEvent extends AuthEvent {}
 
 class SignOut extends AuthEvent {}

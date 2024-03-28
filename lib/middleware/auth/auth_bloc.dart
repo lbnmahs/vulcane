@@ -2,8 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:vulcane/data/auth/auth_repository.dart';
 
+import 'package:vulcane/data/auth/auth_repository.dart';
 import 'package:vulcane/models/user_model.dart';
 
 part 'auth_event.dart';
@@ -57,6 +57,36 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       } catch (e) {
         emit(AuthFailure(message: e.toString()));
+      }
+    });
+
+    // verify phone number and send OTP
+    on<VerifyPhoneNumber>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        await authRepository.verifyPhoneNumber(
+          event.phoneNumber, (verificationId) => emit(OTPSent())
+        );
+        emit(PhoneNumberVerificationSuccess());
+      } catch (e) {
+        emit(PhoneNumberVerificationFailure(message: e.toString()));
+      }
+    });
+
+    // verify OTP and sign in user
+    on<VerifyOTP>((event, emit) async {
+      emit(AuthLoading());
+      try {
+        final user = await authRepository.verifyOTP(
+          event.verificationId, event.smsCode, event.phoneNumber
+        );
+        if(user != null) {
+          emit(OTPVerificationSuccess(user: VulcaneUser.fromFirebaseUser(user)));
+        } else {
+          emit(OTPVerificationFailure(message: 'Failed to verify OTP'));
+        }
+      } catch (e) {
+        emit(OTPVerificationFailure(message: e.toString()));
       }
     });
 
