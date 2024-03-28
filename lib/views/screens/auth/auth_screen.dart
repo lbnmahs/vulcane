@@ -201,7 +201,10 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       keyboardType: TextInputType.name,
                       decoration: InputDecoration(
-                        border: InputBorder.none,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none,
+                        ),
                         filled: true,
                         fillColor: Theme.of(context).colorScheme.primaryContainer,
                         contentPadding: const EdgeInsets.all(10.0),
@@ -244,7 +247,10 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      border: InputBorder.none,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none,
+                      ),
                       filled: true,
                       fillColor: Theme.of(context).colorScheme.primaryContainer,
                       contentPadding: const EdgeInsets.all(10.0),
@@ -286,7 +292,10 @@ class _AuthScreenState extends State<AuthScreen> {
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
                     decoration: InputDecoration(
-                      border: InputBorder.none,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide.none,
+                      ),
                       filled: true,
                       fillColor: Theme.of(context).colorScheme.primaryContainer,
                       contentPadding: const EdgeInsets.all(10.0),
