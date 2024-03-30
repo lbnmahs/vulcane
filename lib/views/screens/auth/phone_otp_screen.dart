@@ -36,7 +36,9 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    _isPhoneNumber ?'Enter your phone number' : 'Enter the sent OTP code',
+                    _isPhoneNumber 
+                      ? 'Enter your phone number' 
+                      : 'Enter the sent OTP code',
                     style: Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),

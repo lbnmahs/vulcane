@@ -4,8 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:vulcane/data/auth/auth_data_provider.dart';
-import 'package:vulcane/data/auth/auth_repository.dart';
+import 'package:vulcane/services/auth/auth_data_provider.dart';
+import 'package:vulcane/services/auth/auth_repository.dart';
 import 'package:vulcane/firebase_options.dart';
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
 import 'package:vulcane/views/screens/auth/auth_screen.dart';

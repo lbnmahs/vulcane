@@ -3,7 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'package:vulcane/data/auth/auth_repository.dart';
+import 'package:vulcane/services/auth/auth_repository.dart';
 import 'package:vulcane/models/user_model.dart';
 
 part 'auth_event.dart';
