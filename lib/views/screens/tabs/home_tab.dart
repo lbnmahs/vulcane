@@ -73,7 +73,8 @@ class _HomeTabState extends State<HomeTab> {
         showSelectedLabels: _screenIndex != 3 ? true : false,
         showUnselectedLabels: false,
         selectedFontSize: 27,
-        selectedItemColor: Theme.of(context).colorScheme.onPrimary,
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        selectedIconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSecondary),
         unselectedFontSize: 25,
         unselectedItemColor: Theme.of(context).colorScheme.onPrimaryContainer,
         selectedLabelStyle: const TextStyle(

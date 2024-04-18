@@ -22,16 +22,14 @@ class AuthRepository {
     return await authDataProvider.signInWithGoogle();
   }
 
-  Future<void> verifyPhoneNumber(
-    String phoneNumber, Function(String) codeSent
-  ) async {
-    return await authDataProvider.verifyPhoneNumber(phoneNumber, codeSent);
+  Future<void> verifyPhoneNumber(String phoneNumber, String uid, Function(String) codeSent) async {
+    return await authDataProvider.verifyPhoneNumber(phoneNumber, uid, codeSent);
   }
 
   Future<User?> verifyOTP(
-    String verificationId, String smsCode, String phoneNumber
+    String verificationId, String smsCode, String uid
   ) async {
-    return await authDataProvider.verifyOTP(verificationId, smsCode, phoneNumber);
+    return await authDataProvider.verifyOTP(verificationId, smsCode, uid);
   }
 
   Future<void> signOut() async {
