@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
+import 'package:vulcane/middleware/auth/auth_bloc.dart';
+
 class PhoneOTPScreen extends StatefulWidget {
-  const PhoneOTPScreen({super.key});
+  const PhoneOTPScreen({super.key, required this.uid});
+
+  final String uid;
 
   @override
   State<StatefulWidget> createState() => _PhoneOTPScreenState();
 }
 
 class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
-  var _isPhoneNumber = false;
-  final _messageController = TextEditingController();
+  var _isPhoneNumber = true;
+  final _phoneNumberController = TextEditingController();
 
   @override
   void dispose() {
-    _messageController.dispose();
+    _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -25,6 +30,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: Center(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -57,7 +63,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                   const SizedBox(height: 20),
                   _isPhoneNumber
                     ? InternationalPhoneNumberInput(
-                        textFieldController: _messageController,
+                        textFieldController: _phoneNumberController,
                         inputDecoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
@@ -98,12 +104,33 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                       ),
                   const SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if(_isPhoneNumber) {
+                        setState(() => _isPhoneNumber = false);
+                        context.read<AuthBloc>().add(
+                          SendOTP(
+                            phoneNumber: _phoneNumberController.text, 
+                            uid: widget.uid, 
+                            codeSent: (verificationId) {
+                              _phoneNumberController.text = verificationId;
+                            }
+                          )
+                        );
+                      } else {
+                        context.read<AuthBloc>().add(
+                          VerifyOTP(
+                            verificationId: _phoneNumberController.text, 
+                            smsCode: _phoneNumberController.text, 
+                            uid: widget.uid
+                          )
+                        );
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15
                       ),
-                      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       foregroundColor: Theme.of(context).colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),

@@ -61,11 +61,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     // verify phone number and send OTP
-    on<VerifyPhoneNumber>((event, emit) async {
+    on<SendOTP>((event, emit) async {
       emit(AuthLoading());
       try {
         await authRepository.verifyPhoneNumber(
-          event.phoneNumber, (verificationId) => emit(OTPSent())
+          event.phoneNumber, event.uid, event.codeSent
         );
         emit(PhoneNumberVerificationSuccess());
       } catch (e) {
@@ -78,7 +78,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoading());
       try {
         final user = await authRepository.verifyOTP(
-          event.verificationId, event.smsCode, event.phoneNumber
+          event.verificationId, event.smsCode, event.uid
         );
         if(user != null) {
           emit(OTPVerificationSuccess(user: VulcaneUser.fromFirebaseUser(user)));

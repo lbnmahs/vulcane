@@ -22,20 +22,21 @@ class RegisterWithEmailPassword extends AuthEvent {
 
 class SignInWithGoogle extends AuthEvent {}
 
-class VerifyPhoneNumber extends AuthEvent {
+class SendOTP extends AuthEvent {
   final String phoneNumber;
+  final String uid;
   final Function(String) codeSent;
 
-  VerifyPhoneNumber({required this.phoneNumber, required this.codeSent});
+  SendOTP({required this.phoneNumber, required this.uid, required this.codeSent});
 }
 
 class VerifyOTP extends AuthEvent {
   final String verificationId;
   final String smsCode;
-  final String phoneNumber;
+  final String uid;
 
   VerifyOTP({
-    required this.verificationId, required this.smsCode, required this.phoneNumber
+    required this.verificationId, required this.smsCode, required this.uid
   });
 }
 

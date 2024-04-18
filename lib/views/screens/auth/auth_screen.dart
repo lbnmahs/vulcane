@@ -4,6 +4,7 @@ import 'package:toastification/toastification.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
+import 'package:vulcane/views/screens/auth/phone_otp_screen.dart';
 import 'package:vulcane/views/screens/tabs/home_tab.dart';
 import 'package:vulcane/views/widgets/custom_input.dart';
 
@@ -80,11 +81,20 @@ class _AuthScreenState extends State<AuthScreen> {
             boxShadow: lowModeShadow,
           );
           toastification.dismiss(authSuccessNotification);
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => HomeTab(currentUser: state.user,),
-            ),
-          );
+          if(_isLogin) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => HomeTab(currentUser: state.user,),
+              ),
+            );
+          } else {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => PhoneOTPScreen(uid: state.user.id,),
+              ),
+            );
+          }
+
         }
       },
       child: Scaffold(

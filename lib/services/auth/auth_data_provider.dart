@@ -122,13 +122,19 @@ class AuthDataProvider {
 
   // phone number authentication and sending OTP
   Future<void> verifyPhoneNumber(
-    String phoneNumber,  Function(String) codeSent
+    String phoneNumber, String uid, Function(String) codeSent
   ) async {
     try {
       await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await _firebaseAuth.signInWithCredential(credential);
+          UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
+          User? user = userCredential.user;
+          if(user != null) {
+            await FirebaseFirestore.instance.collection('users').doc(uid).update({
+              'phoneNumber': phoneNumber,
+            });
+          }
         },
         verificationFailed: (FirebaseAuthException e) {
           throw Exception('An error occurred: ${e.message}');
@@ -145,7 +151,7 @@ class AuthDataProvider {
 
   // verify OTP and user sign in
   Future<User?> verifyOTP(
-    String verificationId, String smsCode, String phoneNumber
+    String verificationId, String smsCode, String uid
   ) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -155,8 +161,8 @@ class AuthDataProvider {
       User? user = userCredential.user;
 
       if(user != null) {
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-          'phoneNumber': phoneNumber,
+        await FirebaseFirestore.instance.collection('users').doc(uid).update({
+          'phoneNumber': user.phoneNumber,
         });
       }
       return user;
