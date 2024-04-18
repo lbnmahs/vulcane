@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:toastification/toastification.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
 import 'package:vulcane/views/screens/tabs/home_tab.dart';
+import 'package:vulcane/views/widgets/custom_input.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -184,15 +185,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 30),
 
                   // First Name Field
-                  if(!_isLogin)
-                    Text(
-                      'First Name',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.6),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  if (!_isLogin) const SizedBox(height: 8),
                   if (!_isLogin)
                     TextFormField(
                       key: const ValueKey('fullName'),
@@ -200,27 +192,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
                       keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Theme.of(context).colorScheme.primaryContainer,
-                        contentPadding: const EdgeInsets.all(10.0),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: const BorderSide(color: Colors.red, width: 1.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
-                        ),
-                      ),
+                      decoration: customInputDecoration(context: context, label: 'Full Name'),
                       onSaved: (value) => _enteredFullName = value!,
                       validator: (value) {
                         if(value == null || value.isEmpty){
@@ -232,41 +204,13 @@ class _AuthScreenState extends State<AuthScreen> {
                   if (!_isLogin) const SizedBox(height: 20),
 
                   // Email Field
-                  Text(
-                    'Email Address',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.6),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
                   TextFormField(
                     key: const ValueKey('email'),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.primaryContainer,
-                      contentPadding: const EdgeInsets.all(10.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Colors.red, width: 1.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+                    decoration: customInputDecoration(context: context, label: 'Email Address'),
                     onSaved: (value) => _enteredEmail = value!,
                     validator: (value) {
                       if (value == null || value.isEmpty || !value.contains('@')) {
@@ -278,40 +222,14 @@ class _AuthScreenState extends State<AuthScreen> {
                   const SizedBox(height: 20),
 
                   // Password Field
-                  Text(
-                    'Password',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.6),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
                   TextFormField(
                     key: const ValueKey('password'),
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.primaryContainer,
-                      contentPadding: const EdgeInsets.all(10.0),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide:
-                            const BorderSide(color: Colors.red, width: 1.0),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
+                    decoration: customInputDecoration(
+                      context: context, 
+                      label: 'Password',
                       suffixIcon: IconButton(
                         icon: Icon(
                           _isPasswordObscured ? Icons.visibility_off_rounded : Icons.visibility_rounded,
