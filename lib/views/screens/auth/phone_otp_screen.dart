@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class PhoneOTPScreen extends StatefulWidget {
   const PhoneOTPScreen({super.key});
@@ -56,9 +56,9 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                   ),
                   const SizedBox(height: 20),
                   _isPhoneNumber
-                    ? IntlPhoneField(
-                        controller: _messageController,
-                        decoration: InputDecoration(
+                    ? InternationalPhoneNumberInput(
+                        textFieldController: _messageController,
+                        inputDecoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none,
@@ -79,8 +79,13 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                             borderSide: BorderSide.none,
                           ),
                         ),
-                        initialCountryCode: 'KE',
-                        onChanged: (phone) => debugPrint(phone.completeNumber),
+                        onInputChanged: (phone) => debugPrint(phone as String),
+                        selectorConfig: const SelectorConfig(
+                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                          showFlags: true,
+                          leadingPadding: 10,
+                          useBottomSheetSafeArea: true
+                        ),                        
                       )
                     : OtpTextField(
                         numberOfFields: 6,
