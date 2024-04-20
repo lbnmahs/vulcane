@@ -17,34 +17,54 @@ class PhoneOTPScreen extends StatefulWidget {
 
 class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
   var _isPhoneNumber = true;
+  String _fullPhoneNumber = '';
   final _phoneNumberController = TextEditingController();
+  List<TextEditingController>? _otpControllers;
 
-  void _verify () {
-    if(_isPhoneNumber) {
-      context.read<AuthBloc>().add(
-        SendOTP(
-          phoneNumber: _phoneNumberController.text, 
-          uid: widget.uid, 
-          codeSent: (verificationId) {
-            _phoneNumberController.text = verificationId;
-          }
-        )
-      );
-      setState(() => _isPhoneNumber = false);
-    } else {
-      context.read<AuthBloc>().add(
-        VerifyOTP(
-          verificationId: _phoneNumberController.text, 
-          smsCode: _phoneNumberController.text, 
-          uid: widget.uid
-        )
-      );
+  void _verify() => _isPhoneNumber ? _sendOTP() : _verifyOTP();
+  
+  void _sendOTP () {
+    if(_fullPhoneNumber.isEmpty){ 
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Phone number is empty')),
+      );      
+      return;
     }
+    context.read<AuthBloc>().add(
+      SendOTP(
+        phoneNumber: _fullPhoneNumber, 
+        uid: widget.uid, 
+        codeSent: (verificationId) {
+          for (int i = 0; i < verificationId.length && i < _otpControllers!.length; i++) {
+            _otpControllers![i].text = verificationId[i];
+          }
+        }
+      )
+    );
+    setState(() => _isPhoneNumber = false);
+  }
+
+  void _verifyOTP () {
+    if (_otpControllers == null || _otpControllers!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('OTP code is empty')),
+      );
+      return;
+    }    
+    String otpCode = _otpControllers!.map((controller) => controller.text).join();
+    context.read<AuthBloc>().add(
+      VerifyOTP(
+        verificationId: otpCode, 
+        smsCode: otpCode, 
+        uid: widget.uid
+      )
+    );
   }
 
   @override
   void dispose() {
     _phoneNumberController.dispose();
+    _otpControllers?.forEach((controller) => controller.dispose());
     super.dispose();
   }
 
@@ -70,7 +90,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
               Text(
                 _isPhoneNumber 
                   ? 'We will send you a verification code' 
-                  : 'Enter the code sent to ${_phoneNumberController.text}',
+                  : 'Enter the code sent to $_fullPhoneNumber',
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
                   color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
@@ -85,7 +105,9 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
                     inputDecoration: customInputDecoration(context: context, label: 'Phone Number'),
-                    onInputChanged: (phone) => debugPrint(phone as String),
+                    onInputChanged:(phone) {
+                      _fullPhoneNumber = phone.phoneNumber!;
+                    },
                     selectorConfig: const SelectorConfig(
                       selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                       showFlags: true,
@@ -98,8 +120,9 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                     borderColor: Theme.of(context).colorScheme.primaryContainer,
                     focusedBorderColor: Theme.of(context).colorScheme.onPrimary,
                     showFieldAsBox: true,
-                    onCodeChanged: (code) {
-                      debugPrint(code);
+                    onCodeChanged: (code) {debugPrint(code);},
+                    handleControllers: (controllers) {
+                      _otpControllers = controllers.whereType<TextEditingController>().toList();
                     },
                   ),
               const SizedBox(height: 30),
