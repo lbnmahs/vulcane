@@ -19,6 +19,29 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
   var _isPhoneNumber = true;
   final _phoneNumberController = TextEditingController();
 
+  void _verify () {
+    if(_isPhoneNumber) {
+      context.read<AuthBloc>().add(
+        SendOTP(
+          phoneNumber: _phoneNumberController.text, 
+          uid: widget.uid, 
+          codeSent: (verificationId) {
+            _phoneNumberController.text = verificationId;
+          }
+        )
+      );
+      setState(() => _isPhoneNumber = false);
+    } else {
+      context.read<AuthBloc>().add(
+        VerifyOTP(
+          verificationId: _phoneNumberController.text, 
+          smsCode: _phoneNumberController.text, 
+          uid: widget.uid
+        )
+      );
+    }
+  }
+
   @override
   void dispose() {
     _phoneNumberController.dispose();
@@ -54,6 +77,7 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                 textAlign: TextAlign.start,
               ),
               const SizedBox(height: 20),
+
               _isPhoneNumber
                 ? InternationalPhoneNumberInput(
                     textFieldController: _phoneNumberController,
@@ -79,45 +103,34 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                     },
                   ),
               const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () {
-                  if(_isPhoneNumber) {
-                    setState(() => _isPhoneNumber = false);
-                    context.read<AuthBloc>().add(
-                      SendOTP(
-                        phoneNumber: _phoneNumberController.text, 
-                        uid: widget.uid, 
-                        codeSent: (verificationId) {
-                          _phoneNumberController.text = verificationId;
-                        }
-                      )
-                    );
-                  } else {
-                    context.read<AuthBloc>().add(
-                      VerifyOTP(
-                        verificationId: _phoneNumberController.text, 
-                        smsCode: _phoneNumberController.text, 
-                        uid: widget.uid
-                      )
-                    );
-                  }
+
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: state is! AuthLoading ? _verify : null,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      child: Center(
+                        child: state is AuthLoading 
+                          ? CircularProgressIndicator(
+                              color: Theme.of(context).colorScheme.onSecondaryContainer,
+                            )
+                          : Text(
+                              _isPhoneNumber ? 'Send OTP' : 'Verify OTP',
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                      ),
+                    ),
+                  );
                 },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15, vertical: 15
-                  ),
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  _isPhoneNumber ? 'Send OTP' : 'Verify OTP',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
               ),
             ],
           ),
