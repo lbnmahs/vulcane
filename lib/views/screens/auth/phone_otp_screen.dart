@@ -38,10 +38,10 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
           for (int i = 0; i < verificationId.length && i < _otpControllers!.length; i++) {
             _otpControllers![i].text = verificationId[i];
           }
+          setState(() => _isPhoneNumber = false);
         }
       )
     );
-    setState(() => _isPhoneNumber = false);
   }
 
   void _verifyOTP () {
@@ -116,6 +116,9 @@ class _PhoneOTPScreenState extends State<PhoneOTPScreen> {
                     ),                        
                   )
                 : OtpTextField(
+                    textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
                     numberOfFields: 6,
                     borderColor: Theme.of(context).colorScheme.primaryContainer,
                     focusedBorderColor: Theme.of(context).colorScheme.onPrimary,
