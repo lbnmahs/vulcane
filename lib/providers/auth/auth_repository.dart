@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:vulcane/models/user_model.dart';
-import 'package:vulcane/services/auth/auth_data_provider.dart';
+import 'package:vulcane/providers/auth/auth_data_provider.dart';
 
 class AuthRepository {
   final AuthDataProvider authDataProvider;

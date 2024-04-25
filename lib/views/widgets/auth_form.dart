@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:vulcane/middleware/auth/auth_bloc.dart';
+import 'package:vulcane/utils/auth/auth_bloc.dart';
 import 'package:vulcane/views/widgets/custom_input.dart';
 import 'package:vulcane/views/screens/tabs/home_tab.dart';
 import 'package:vulcane/views/widgets/toast_notifications.dart';
