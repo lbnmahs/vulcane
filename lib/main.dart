@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'package:vulcane/services/auth/auth_data_provider.dart';
-import 'package:vulcane/services/auth/auth_repository.dart';
 import 'package:vulcane/firebase_options.dart';
 import 'package:vulcane/middleware/auth/auth_bloc.dart';
-import 'package:vulcane/views/screens/auth/auth_screen.dart';
-import 'package:vulcane/views/screens/tabs/home_tab.dart';
 import 'package:vulcane/views/screens/splash_screen.dart';
+import 'package:vulcane/views/screens/tabs/home_tab.dart';
+import 'package:vulcane/services/auth/auth_repository.dart';
+import 'package:vulcane/views/screens/auth/auth_screen.dart';
+import 'package:vulcane/services/auth/auth_data_provider.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: '.env');

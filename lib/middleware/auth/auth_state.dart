@@ -29,8 +29,6 @@ final class PhoneNumberVerificationFailure extends AuthState {
   PhoneNumberVerificationFailure({required this.message});
 }
 
-final class OTPSent extends AuthState {}
-
 final class OTPVerificationSuccess extends AuthState {
   final VulcaneUser user;
 
