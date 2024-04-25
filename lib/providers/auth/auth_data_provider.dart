@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:vulcane/models/user_model.dart';
 
@@ -120,8 +120,8 @@ class AuthDataProvider {
     }
   }
 
-  // phone number authentication and sending OTP
-  Future<void> verifyPhoneNumber(
+  // sending OTP
+  Future<void> sendOtp(
     String phoneNumber, String uid, Function(String) codeSent
   ) async {
     try {
@@ -150,7 +150,7 @@ class AuthDataProvider {
   }
 
   // verify OTP and user sign in
-  Future<User?> verifyOTP(
+  Future<User?> verifyOtp(
     String verificationId, String smsCode, String uid
   ) async {
     try {
@@ -159,12 +159,6 @@ class AuthDataProvider {
       );
       UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
       User? user = userCredential.user;
-
-      if(user != null) {
-        await FirebaseFirestore.instance.collection('users').doc(uid).update({
-          'phoneNumber': user.phoneNumber,
-        });
-      }
       return user;
     } catch (e) {
       throw Exception('An error occurred: $e');

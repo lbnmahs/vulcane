@@ -3,8 +3,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import 'package:vulcane/services/auth/auth_repository.dart';
 import 'package:vulcane/models/user_model.dart';
+import 'package:vulcane/providers/auth/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -64,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SendOTP>((event, emit) async {
       emit(AuthLoading());
       try {
-        await authRepository.verifyPhoneNumber(
+        await authRepository.sendOTP(
           event.phoneNumber, event.uid, event.codeSent
         );
         emit(PhoneNumberVerificationSuccess());

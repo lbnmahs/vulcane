@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:vulcane/services/auth/auth_data_provider.dart';
 import 'package:vulcane/models/user_model.dart';
+import 'package:vulcane/providers/auth/auth_data_provider.dart';
 
 class AuthRepository {
   final AuthDataProvider authDataProvider;
@@ -22,14 +22,14 @@ class AuthRepository {
     return await authDataProvider.signInWithGoogle();
   }
 
-  Future<void> verifyPhoneNumber(String phoneNumber, String uid, Function(String) codeSent) async {
-    return await authDataProvider.verifyPhoneNumber(phoneNumber, uid, codeSent);
+  Future<void> sendOTP(String phoneNumber, String uid, Function(String) codeSent) async {
+    return await authDataProvider.sendOtp(phoneNumber, uid, codeSent);
   }
 
   Future<User?> verifyOTP(
     String verificationId, String smsCode, String uid
   ) async {
-    return await authDataProvider.verifyOTP(verificationId, smsCode, uid);
+    return await authDataProvider.verifyOtp(verificationId, smsCode, uid);
   }
 
   Future<void> signOut() async {
