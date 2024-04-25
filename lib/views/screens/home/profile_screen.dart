@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:vulcane/utils/auth/auth_bloc.dart';
 import 'package:vulcane/models/user_model.dart';
-import 'package:vulcane/views/screens/auth/auth_screen.dart';
+import 'package:vulcane/utils/auth/auth_bloc.dart';
 import 'package:vulcane/views/widgets/user_avatar.dart';
+import 'package:vulcane/views/screens/auth/auth_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, required this.user});

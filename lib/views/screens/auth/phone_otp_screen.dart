@@ -5,8 +5,8 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import 'package:vulcane/utils/auth/auth_bloc.dart';
-import 'package:vulcane/views/screens/tabs/home_tab.dart';
 import 'package:vulcane/views/widgets/custom_input.dart';
+import 'package:vulcane/views/screens/tabs/home_tab.dart';
 import 'package:vulcane/views/widgets/toast_notifications.dart';
 
 class PhoneOTPScreen extends StatefulWidget {
